@@ -6,7 +6,10 @@
 import axios from 'axios'
 console.log(axios)
 
-let result = axios.get('https://api.github.com/users/AndreO213')
+axios.get('https://api.github.com/users/AndreO213')
+.then(futureData => console.log(futureData))
+.catch(error => console.log(error)
+debugger)
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -52,6 +55,35 @@ const followersArray = [];
       </div>
     </div>
 */
+
+const multCard = document.querySelector('.cards')
+
+function cardMaker(){
+  // Creating the elements
+  const card = document.createElement('div')
+  const img = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const name = document.createElement('h3')
+  const location = document.createElement('p')
+  const profile = document.createElement('p')
+  const followers = document.createElement('p')
+  const following = document.createElement('p')
+  const bio = document.createElement('p')
+  // Adding the classes
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+// Appending to the body
+  multCard.appendChild(card)
+  card.appendChild(img)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(name)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  cardInfo.appendChild(followers)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(bio)
+}
 
 /*
   List of LS Instructors Github username's:
