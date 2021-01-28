@@ -3,7 +3,10 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios'
+console.log(axios)
 
+let result = axios.get('https://api.github.com/users/AndreO213')
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
