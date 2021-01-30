@@ -3,13 +3,13 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-import axios from 'axios'
-console.log(axios)
+import axios from "axios";
+console.log(axios);
 
-axios.get('https://api.github.com/users/AndreO213')
-.then(futureData => console.log(futureData))
-.catch(error => console.log(error)
-debugger)
+// axios.get('https://api.github.com/users/AndreO213')
+// .then(futureData => console.log(futureData))
+// .catch(error => console.log(error)
+// debugger)
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -56,34 +56,94 @@ const followersArray = [];
     </div>
 */
 
-const multCard = document.querySelector('.cards')
+const multCard = document.querySelector(".cards");
 
-function cardMaker(){
+function cardMaker({
+  imgUrl,
+  fullName,
+  username,
+  userLocation,
+  userUrl,
+  numFollowers,
+  numFollowing,
+  userBio,
+}) {
   // Creating the elements
-  const card = document.createElement('div')
-  const img = document.createElement('img')
-  const cardInfo = document.createElement('div')
-  const name = document.createElement('h3')
-  const location = document.createElement('p')
-  const profile = document.createElement('p')
-  const followers = document.createElement('p')
-  const following = document.createElement('p')
-  const bio = document.createElement('p')
+  const card = document.createElement("div");
+  const img = document.createElement("img");
+  const cardInfo = document.createElement("div");
+  const name = document.createElement("h3");
+  const userName = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const link = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
   // Adding the classes
-  card.classList.add('card')
-  cardInfo.classList.add('card-info')
-  name.classList.add('name')
-// Appending to the body
-  multCard.appendChild(card)
-  card.appendChild(img)
-  card.appendChild(cardInfo)
-  cardInfo.appendChild(name)
-  cardInfo.appendChild(location)
-  cardInfo.appendChild(profile)
-  cardInfo.appendChild(followers)
-  cardInfo.appendChild(following)
-  cardInfo.appendChild(bio)
+  card.classList.add("card");
+  cardInfo.classList.add("card-info");
+  name.classList.add("name");
+  userName.classList.add("username");
+  // Appending to the body
+  multCard.appendChild(card);
+  card.appendChild(img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(link);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+  //  Giving the Elements their content
+  img.src = imgUrl;
+  name.textContent = fullName;
+  userName.textContent = username;
+  location.textContent = userLocation;
+  profile.textContent = "Profile:";
+  link.src = userUrl;
+  link.textContent = userUrl;
+  followers.textContent = numFollowers;
+  following.textContent = numFollowing;
+  bio.textContent = userBio;
+
+  return card;
 }
+
+axios.get("https://api.github.com/users/AndreO213").then((res) => {
+  const ghData = res.data;
+  // const cardData = ghData.map((i) => {
+  //   return [
+  //     i.avatar_url,
+  //     i.bio,
+  //     i.followers,
+  //     i.following,
+  //     i.location,
+  //     i.name,
+  //     i.login,
+  //     i.url,
+  //   ];
+  // });
+  console.log(ghData);
+  // console.log(cardData);
+  
+    const userCard = cardMaker({
+      imgUrl: ghData.avatar_url,
+      fullName: ghData.name,
+      username: ghData.login,
+      userLocation: ghData.location,
+      userUrl: ghData.url,
+      numFollowers: ghData.followers,
+      numFollowing: ghData.following,
+      userBio: ghData.bio,
+    })
+    multCard.appendChild(userCard);
+  });
+
+// .catch(err => console.log(err));
+
 
 /*
   List of LS Instructors Github username's:
