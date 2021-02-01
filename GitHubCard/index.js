@@ -33,8 +33,52 @@ console.log(axios);
     Using that array, iterate over it, requesting data for each user, creating a new card for each
     user, and adding that card to the DOM.
 */
-
+const userUrl = `https://api.github.com/users/AndreO213/followers`;
 const followersArray = [];
+
+axios
+  .get(userUrl)
+  .then((res) => {
+    let loginData = res.data.login;
+    let followerUrl = `https://api.github.com/users/${loginData}`;
+
+    followersArray.push(loginData);
+    followersArray.forEach(() => {
+      axios
+        .get(followerUrl)
+        .then((res) => {
+          let resData = res.data;
+          const follCard = cardMaker({
+            imgUrl: resData.avatar_url,
+            fullName: resData.name,
+            username: resData.login,
+            userLocation: resData.location,
+            userUrl: resData.url,
+            numFollowers: resData.followers,
+            numFollowing: resData.following,
+            userBio: resData.bio,
+          });
+          multCard.appendChild(follCard);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // const follCard = cardMaker({
+      //   imgUrl: i.data.avatar_url,
+      //   fullName: i.data.name,
+      //   username: i.data.login,
+      //   userLocation: i.data.location,
+      //   userUrl: i.data.url,
+      //   numFollowers: i.data.followers,
+      //   numFollowing: i.data.following,
+      //   userBio: i.data.bio,
+      // })
+      // multCard.appendChild(follCard);
+    });
+  })
+  .catch((err) =>
+    console.log("Are you serious? Of course you got an error!!", err)
+  );
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -128,22 +172,21 @@ axios.get("https://api.github.com/users/AndreO213").then((res) => {
   // });
   console.log(ghData);
   // console.log(cardData);
-  
-    const userCard = cardMaker({
-      imgUrl: ghData.avatar_url,
-      fullName: ghData.name,
-      username: ghData.login,
-      userLocation: ghData.location,
-      userUrl: ghData.url,
-      numFollowers: ghData.followers,
-      numFollowing: ghData.following,
-      userBio: ghData.bio,
-    })
-    multCard.appendChild(userCard);
+
+  const userCard = cardMaker({
+    imgUrl: ghData.avatar_url,
+    fullName: ghData.name,
+    username: ghData.login,
+    userLocation: ghData.location,
+    userUrl: ghData.url,
+    numFollowers: ghData.followers,
+    numFollowing: ghData.following,
+    userBio: ghData.bio,
   });
+  multCard.appendChild(userCard);
+});
 
 // .catch(err => console.log(err));
-
 
 /*
   List of LS Instructors Github username's:
