@@ -34,16 +34,17 @@ console.log(axios);
     user, and adding that card to the DOM.
 */
 const userUrl = `https://api.github.com/users/AndreO213/followers`;
-const followersArray = [];
+// const followersArray = [];
 
 axios
   .get(userUrl)
   .then((res) => {
-    let loginData = res.data.login;
-    let followerUrl = `https://api.github.com/users/${loginData}`;
-
-    followersArray.push(loginData);
-    followersArray.forEach(() => {
+    const followersArray = [];
+    const loginData = res.data;
+    loginData.map((i) => followersArray.push(i.login));
+    console.log(followersArray);
+    followersArray.forEach((login) => {
+      let followerUrl = `https://api.github.com/users/${login}`;
       axios
         .get(followerUrl)
         .then((res) => {
@@ -63,17 +64,6 @@ axios
         .catch((err) => {
           console.log(err);
         });
-      // const follCard = cardMaker({
-      //   imgUrl: i.data.avatar_url,
-      //   fullName: i.data.name,
-      //   username: i.data.login,
-      //   userLocation: i.data.location,
-      //   userUrl: i.data.url,
-      //   numFollowers: i.data.followers,
-      //   numFollowing: i.data.following,
-      //   userBio: i.data.bio,
-      // })
-      // multCard.appendChild(follCard);
     });
   })
   .catch((err) =>
@@ -156,22 +146,11 @@ function cardMaker({
   return card;
 }
 
-axios.get("https://api.github.com/users/AndreO213").then((res) => {
+axios.get("https://api.github.com/users/AndreO213")
+.then((res) => {
   const ghData = res.data;
-  // const cardData = ghData.map((i) => {
-  //   return [
-  //     i.avatar_url,
-  //     i.bio,
-  //     i.followers,
-  //     i.following,
-  //     i.location,
-  //     i.name,
-  //     i.login,
-  //     i.url,
-  //   ];
-  // });
+
   console.log(ghData);
-  // console.log(cardData);
 
   const userCard = cardMaker({
     imgUrl: ghData.avatar_url,
@@ -184,9 +163,9 @@ axios.get("https://api.github.com/users/AndreO213").then((res) => {
     userBio: ghData.bio,
   });
   multCard.appendChild(userCard);
-});
+})
 
-// .catch(err => console.log(err));
+.catch(err => console.log(err));
 
 /*
   List of LS Instructors Github username's:
